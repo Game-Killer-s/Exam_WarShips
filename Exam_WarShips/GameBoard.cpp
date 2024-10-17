@@ -467,7 +467,147 @@ void GameBoard::placeShip(bool autoPlaceShips) {
 }
 
 void GameBoard::shoot(bool* SuccessShoot) {
-	*SuccessShoot = true;	//У разі успіху
+	int x,
+		y;
+	while (true) {
+		cout << "Введіть координати 'x' та 'y' для пострілу" << endl;
+		//cout << "Input coordinate 'x' and 'y' for shoot" << endl;
+		cin >> x >> y;
+		if (x < 0 || x>9 || y < 0 || y>9) {
+			cout << "Введіть коректні значення" << endl;
+			//cout << "Input correct numbers" << endl;
+			return;
+		}
+		else {
+			switch (LogicBoard[y][x])
+			{
+			case(0):
+				LogicBoard[y][x] = 3;
+				*SuccessShoot = true;
+				return;
+			case(1):
+				LogicBoard[y][x] = 2;
+				//BoardCheckShoot(x, y);
+				*SuccessShoot = true;
+				return;
+			default:
+				cout << "Постріл не може бути зроблен у те саме місце" << endl;
+				//cout << "Shoot cannot be done to a same position" << endl;
+				return;
+			}
+		}
+	}
+}
+
+void GameBoard::CompShoot(bool* SuccessShoot, int* xPrev, int* yPrev,int*directionPrev,int*missShot) {
+	int x,
+		y,
+		direction=-1;
+	while (true) {
+		if (*missShot > 4) {
+			*xPrev = -1;
+			*yPrev = -1;
+			*directionPrev = -1;
+			*missShot = 0;
+		}
+		if (*xPrev<0||*xPrev>9||*yPrev<0||*yPrev>9) {
+			x = rand() % 10;
+			y = rand() % 10;
+		}
+		else {
+			x = *xPrev;
+			y = *yPrev;
+			if (*directionPrev < 0 || *directionPrev>3) {
+				while (true) {
+					direction = rand() % 4;
+					if (direction >= 0 && direction <= 3) {
+						*missShot = 0;
+						break;
+					}
+				}
+			}
+			else {
+				direction = *directionPrev;
+			}
+			switch (direction)
+			{
+			case(0):
+				y++;
+				break;
+			case(1):
+				x--;
+				break;
+			case(2):
+				y--;
+				break;
+			case(3):
+				x++;
+				break;
+			default:
+				break;
+			}
+		}
+		if (x < 0 || x>9 || y < 0 || y>9) {
+			if (direction > 0) {
+				direction--;
+				*directionPrev = direction;
+			}
+			else {
+				direction++;
+				*directionPrev = direction;
+			}
+			return;
+		}
+		else {
+			switch (LogicBoard[y][x])
+			{
+			case(0):
+				LogicBoard[y][x] = 3;
+				*SuccessShoot = true;
+				if (direction < 0 || direction>3) {
+					return;
+				}
+				if (direction >= 2) {
+					direction - 2;
+				}
+				else {
+					direction + 2;
+				}
+				*directionPrev = direction;
+				++*missShot;
+				return;
+			case(1):
+				LogicBoard[y][x] = 2;
+				*xPrev = x;
+				*yPrev = y;
+				*SuccessShoot = true;
+				if (direction < 0 || direction>4) {
+					return;
+				}
+				else {
+					*directionPrev = direction;
+					return;
+				}
+				//BoardCheckShoot(x, y);
+			default:
+				if (*directionPrev < 0 || *directionPrev>3) {
+					return;
+				}
+				else {
+					if (direction > 0) {
+						direction--;
+						*directionPrev = direction;
+					}
+					else {
+						direction++;
+						*directionPrev = direction;
+					}
+					++*missShot;
+					return;
+				}
+			}
+		}
+	}
 }
 
 //						ONLY FOR DEBAG!!!!

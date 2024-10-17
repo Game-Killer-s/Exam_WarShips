@@ -16,6 +16,10 @@ int main() {
 	bool autoPlaceShip,
 		PlayerSuccessShoot=false,
 		ComputerSuccessShoot=false;
+	int CompShootX,
+		CompShootY,
+		CompShootDirection,
+		CompMissShot;
 
 	cout << "Ви хочете у ручну виставляти кораблі чи автоматично?(1 для автоматичного розташування 0 для ручного)|\n|:";
 	//cout << "You want to place ship by hand or automatic?(1 for automatic placement and 0 for placement by hand)|\n|:";
@@ -29,15 +33,17 @@ int main() {
 		ComputerBoard.placeShip(1);
 	}
 	while (true) {
+		PlayerSuccessShoot = false;
+		ComputerSuccessShoot = false;
 		PlayerBoard.BoardChangeStatus();
 		PlayerBoard.showBoard();
 		ComputerBoard.BoardChangeStatus();
 		ComputerBoard.showShadowBoard();
 		while (!PlayerSuccessShoot) {
-			PlayerBoard.shoot(&PlayerSuccessShoot);
+			ComputerBoard.shoot(&PlayerSuccessShoot);
 		}
 		while (!ComputerSuccessShoot) {
-			ComputerBoard.shoot(&ComputerSuccessShoot);
+			PlayerBoard.CompShoot(&ComputerSuccessShoot,&CompShootX,&CompShootY,&CompShootDirection,&CompMissShot);
 		}
 	}
 	ComputerBoard.showBoard();

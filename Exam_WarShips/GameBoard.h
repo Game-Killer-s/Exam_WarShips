@@ -41,6 +41,8 @@ public:
 	void placeShip(bool autoPlaceShips);
 	void showShadowBoard();
 	void shoot(bool* SuccessShoot);
+	void CompShoot(bool* SuccessShoot, int* xPrev, int* yPrev,int*directionPrev,int* missShot);
+	void BoardCheckShoot(int x,int y);
 
 
 	//				ONLY FOR DEBUG!!!!!!!
