@@ -22,7 +22,29 @@ void GameBoard::showBoard() {
 	cout << endl;
 }
 
-
+void GameBoard::showShadowBoard() {
+	cout << "|Дошка компьютера|\n|Кораблів живих:" << "|Дуже великих|" << Ships.LargeShips << "|Великих|" << Ships.MediumShips << "|Середніх|" << Ships.Ships << "|Маленьких|" << Ships.SmallShips << "|Крихітних|" << Ships.Boats << "|" << endl << endl;
+	//cout << "|Computer`s Board|\n|Ships alive:" << "|Large ships|" << Ships.LargeShips << "|Medium ships|" << Ships.MediumShips << "|Ships|" << Ships.Ships << "|Small ships|" << Ships.SmallShips << "|Boats|" << Ships.Boats << "|" << endl << endl;
+	cout << "  | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |" << endl;
+	cout << "--|---|---|---|---|---|---|---|---|---|---|" << endl;
+	for (int i = 0; i < width; i++) {
+		cout << i;
+		for (int j = 0; j < height; j++) {
+			if (j == 0) {
+				cout << " |";
+			}
+			cout << " ";
+			if (Board[i][j] == 'S') {
+				cout << " " << " |";
+			}
+			else {
+				cout << Board[i][j] << " |";
+			}
+		}
+		cout << endl << "--|---|---|---|---|---|---|---|---|---|---|" << endl;
+	}
+	cout << endl;
+}
 
 void GameBoard::BoardChangeStatus() {
 	for (int i = 0; i < width; i++) {
@@ -40,6 +62,9 @@ void GameBoard::BoardChangeStatus() {
 				break;
 			case(3):
 				Board[i][j] = 'M';
+				break;
+			case(4):
+				Board[i][j] = 'F';
 				break;
 			default:
 				break;
@@ -85,6 +110,9 @@ void GameBoard::placeShip(bool autoPlaceShips) {
 							ShipCount++;
 						}
 					}
+					Ships.LargeShipsPos[0] = y;
+					Ships.LargeShipsPos[1] = x;
+					Ships.LargeShipsPos[2] = horizontal;
 					Ships.LargeShips++;
 				}
 			}
@@ -119,6 +147,9 @@ void GameBoard::placeShip(bool autoPlaceShips) {
 							ShipCount++;
 						}
 					}
+					Ships.MediumShipsPos[Ships.MediumShips][0] = y;
+					Ships.MediumShipsPos[Ships.MediumShips][1] = x;
+					Ships.MediumShipsPos[Ships.MediumShips][2] = horizontal;
 					Ships.MediumShips++;
 				}
 			}
@@ -153,6 +184,9 @@ void GameBoard::placeShip(bool autoPlaceShips) {
 							ShipCount++;
 						}
 					}
+					Ships.ShipsPos[Ships.Ships][0] = y;
+					Ships.ShipsPos[Ships.Ships][1] = x;
+					Ships.ShipsPos[Ships.Ships][2] = horizontal;
 					Ships.Ships++;
 				}
 			}
@@ -187,6 +221,9 @@ void GameBoard::placeShip(bool autoPlaceShips) {
 							ShipCount++;
 						}
 					}
+					Ships.SmallShipsPos[Ships.SmallShips][0] = y;
+					Ships.SmallShipsPos[Ships.SmallShips][1] = x;
+					Ships.SmallShipsPos[Ships.SmallShips][2] = horizontal;
 					Ships.SmallShips++;
 				}
 			}
@@ -208,6 +245,8 @@ void GameBoard::placeShip(bool autoPlaceShips) {
 						LogicBoard[y][x + i] = 1;
 						ShipCount++;
 					}
+					Ships.BoatsPos[Ships.Boats][0] = y;
+					Ships.BoatsPos[Ships.Boats][1] = x;
 					Ships.Boats++;
 				}
 			}
@@ -253,6 +292,9 @@ void GameBoard::placeShip(bool autoPlaceShips) {
 							ShipCount++;
 						}
 					}
+					Ships.LargeShipsPos[0] = y;
+					Ships.LargeShipsPos[1] = x;
+					Ships.LargeShipsPos[2] = horizontal;
 					Ships.LargeShips++;
 				}
 			}
@@ -295,6 +337,9 @@ void GameBoard::placeShip(bool autoPlaceShips) {
 							ShipCount++;
 						}
 					}
+					Ships.MediumShipsPos[Ships.MediumShips][0] = y;
+					Ships.MediumShipsPos[Ships.MediumShips][1] = x;
+					Ships.MediumShipsPos[Ships.MediumShips][2] = horizontal;
 					Ships.MediumShips++;
 				}
 			}
@@ -337,6 +382,9 @@ void GameBoard::placeShip(bool autoPlaceShips) {
 							ShipCount++;
 						}
 					}
+					Ships.ShipsPos[Ships.Ships][0] = y;
+					Ships.ShipsPos[Ships.Ships][1] = x;
+					Ships.ShipsPos[Ships.Ships][2] = horizontal;
 					Ships.Ships++;
 				}
 			}
@@ -379,6 +427,9 @@ void GameBoard::placeShip(bool autoPlaceShips) {
 							ShipCount++;
 						}
 					}
+					Ships.SmallShipsPos[Ships.SmallShips][0] = y;
+					Ships.SmallShipsPos[Ships.SmallShips][1] = x;
+					Ships.SmallShipsPos[Ships.SmallShips][2] = horizontal;
 					Ships.SmallShips++;
 				}
 			}
@@ -406,9 +457,24 @@ void GameBoard::placeShip(bool autoPlaceShips) {
 						LogicBoard[y][x + i] = 1;
 						ShipCount++;
 					}
+					Ships.BoatsPos[Ships.Boats][0] = y;
+					Ships.BoatsPos[Ships.Boats][1] = x;
 					Ships.Boats++;
 				}
 			}
 		}
 	}
+}
+
+void GameBoard::shoot(bool* SuccessShoot) {
+	*SuccessShoot = true;	//У разі успіху
+}
+
+//						ONLY FOR DEBAG!!!!
+
+void GameBoard::ShowPos() {
+	for (int i = 0; i < 2; i++) {
+		cout << Ships.BoatsPos[0][i] << " ";
+	}
+	cout << endl;
 }

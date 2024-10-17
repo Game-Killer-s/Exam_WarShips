@@ -17,6 +17,12 @@ class GameBoard
 		int Ships = 0;
 		int SmallShips = 0;
 		int Boats = 0;
+
+		int LargeShipsPos[3];
+		int MediumShipsPos[2][3];
+		int ShipsPos[3][3];
+		int SmallShipsPos[4][3];
+		int BoatsPos[5][2];
 	};
 
 	ShipsStr Ships;
@@ -33,6 +39,12 @@ public:
 	void showBoard();
 	void BoardChangeStatus();
 	void placeShip(bool autoPlaceShips);
+	void showShadowBoard();
+	void shoot(bool* SuccessShoot);
 
+
+	//				ONLY FOR DEBUG!!!!!!!
+
+
+	void ShowPos();
 };
-
