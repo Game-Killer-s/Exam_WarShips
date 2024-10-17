@@ -21,6 +21,8 @@ void GameBoard::showBoard() {
 	cout << endl;
 }
 
+
+
 void GameBoard::BoardChangeStatus() {
 	for (int i = 0; i < width; i++) {
 		for (int j = 0; j < height; j++) {
