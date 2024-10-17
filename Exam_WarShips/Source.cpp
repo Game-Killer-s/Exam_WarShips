@@ -15,6 +15,7 @@ int main() {
 	bool autoPlaceShip;
 
 	cout << "Ви хочете у ручну виставляти кораблі чи автоматично?(1 для автоматичного розташування 0 для ручного)|\n|:";
+	//cout << "You want to place ship by hand or automatic?(1 for automatic placement and 0 for placement by hand)|\n|:";
 	cin >> autoPlaceShip;
 	cout << endl;
 

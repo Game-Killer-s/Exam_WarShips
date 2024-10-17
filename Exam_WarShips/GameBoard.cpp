@@ -5,6 +5,7 @@ using namespace std;
 
 void GameBoard::showBoard() {
 	cout << "|Дошка гравця|\n|Кораблів живих:" << "|Дуже великих|" << Ships.LargeShips << "|Великих|" << Ships.MediumShips << "|Середніх|" << Ships.Ships << "|Маленьких|" << Ships.SmallShips << "|Крихітних|" << Ships.Boats << "|" << endl << endl;
+	//cout << "|Player Board|\n|Ships alive:" << "|Large ships|" << Ships.LargeShips << "|Medium ships|" << Ships.MediumShips << "|Ships|" << Ships.Ships << "|Small ships|" << Ships.SmallShips << "|Boats|" << Ships.Boats << "|" << endl << endl;
 	cout << "  | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |" << endl;
 	cout << "--|---|---|---|---|---|---|---|---|---|---|" << endl;
 	for (int i = 0; i < width; i++) {
@@ -218,9 +219,11 @@ void GameBoard::placeShip(bool autoPlaceShips) {
 				BoardChangeStatus();
 				showBoard();
 				cout << "Напишіть \'x\' та \'y\' координати куди поставити кораблі та 0 для вертикального розміщення чи 1 для горизонтального|\n|:";
+				//cout << "Input \'x\' and \'y\' coordinate where to place ships and 0 for vertical placement or 1 for horizontal|\n|:";
 				cin >> x >> y >> horizontal;
 				if (x < 0 || x>9 || y < 0 || y>9) {
 					cout << "Введіть коректні значення" << endl;
+					//cout << "Input correct numbers" << endl;
 					return;
 				}
 				else {
@@ -228,6 +231,7 @@ void GameBoard::placeShip(bool autoPlaceShips) {
 						for (int i = 0; i < GameBoard::ShipsSizeStr::LargeShip; i++) {
 							if (LogicBoard[y + i][x] == 1) {
 								cout << "Ви не можете поставити корабель у місце де він вже присутній" << endl;
+								//cout << "You cannot place ship in place where ship already placed" << endl;
 								return;
 							}
 						}
@@ -240,6 +244,7 @@ void GameBoard::placeShip(bool autoPlaceShips) {
 						for (int i = 0; i < GameBoard::ShipsSizeStr::LargeShip; i++) {
 							if (LogicBoard[y][x + i] == 1) {
 								cout << "Ви не можете поставити корабель у місце де він вже присутній" << endl;
+								//cout << "You cannot place ship in place where ship already placed" << endl;
 								return;
 							}
 						}
@@ -255,10 +260,12 @@ void GameBoard::placeShip(bool autoPlaceShips) {
 				BoardChangeStatus();
 				showBoard();
 				cout << "Напишіть \'x\' та \'y\' координати куди поставити кораблі та 0 для вертикального розміщення чи 1 для горизонтального|\n|:";
+				//cout << "Input \'x\' and \'y\' coordinate where to place ships and 0 for vertical placement or 1 for horizontal|\n|:";
 				cin >> x >> y >> horizontal;
 				cout << endl;
 				if (x < 0 || x>9 || y < 0 || y>9) {
 					cout << "Введіть коректні значення" << endl;
+					//cout << "Input correct numbers" << endl;
 					return;
 				}
 				else {
@@ -266,6 +273,7 @@ void GameBoard::placeShip(bool autoPlaceShips) {
 						for (int i = 0; i < GameBoard::ShipsSizeStr::MediumShip; i++) {
 							if (LogicBoard[y + i][x] == 1) {
 								cout << "Ви не можете поставити корабель у місце де він вже присутній" << endl;
+								//cout << "You cannot place ship in place where ship already placed" << endl;
 								return;
 							}
 						}
@@ -278,6 +286,7 @@ void GameBoard::placeShip(bool autoPlaceShips) {
 						for (int i = 0; i < GameBoard::ShipsSizeStr::MediumShip; i++) {
 							if (LogicBoard[y][x + i] == 1) {
 								cout << "Ви не можете поставити корабель у місце де він вже присутній" << endl;
+								//cout << "You cannot place ship in place where ship already placed" << endl;
 								return;
 							}
 						}
@@ -293,10 +302,12 @@ void GameBoard::placeShip(bool autoPlaceShips) {
 				BoardChangeStatus();
 				showBoard();
 				cout << "Напишіть \'x\' та \'y\' координати куди поставити кораблі та 0 для вертикального розміщення чи 1 для горизонтального|\n|:";
+				//cout << "Input \'x\' and \'y\' coordinate where to place ships and 0 for vertical placement or 1 for horizontal|\n|:";
 				cin >> x >> y >> horizontal;
 				cout << endl;
 				if (x < 0 || x>9 || y < 0 || y>9) {
 					cout << "Введіть коректні значення" << endl;
+					//cout << "Input correct numbers" << endl;
 					return;
 				}
 				else {
@@ -304,6 +315,7 @@ void GameBoard::placeShip(bool autoPlaceShips) {
 						for (int i = 0; i < GameBoard::ShipsSizeStr::Ship; i++) {
 							if (LogicBoard[y + i][x] == 1) {
 								cout << "Ви не можете поставити корабель у місце де він вже присутній" << endl;
+								//cout << "You cannot place ship in place where ship already placed" << endl;
 								return;
 							}
 						}
@@ -316,6 +328,7 @@ void GameBoard::placeShip(bool autoPlaceShips) {
 						for (int i = 0; i < GameBoard::ShipsSizeStr::Ship; i++) {
 							if (LogicBoard[y][x + i] == 1) {
 								cout << "Ви не можете поставити корабель у місце де він вже присутній" << endl;
+								//cout << "You cannot place ship in place where ship already placed" << endl;
 								return;
 							}
 						}
@@ -331,10 +344,12 @@ void GameBoard::placeShip(bool autoPlaceShips) {
 				BoardChangeStatus();
 				showBoard();
 				cout << "Напишіть \'x\' та \'y\' координати куди поставити кораблі та 0 для вертикального розміщення чи 1 для горизонтального|\n|:";
+				//cout << "Input \'x\' and \'y\' coordinate where to place ships and 0 for vertical placement or 1 for horizontal|\n|:";
 				cin >> x >> y >> horizontal;
 				cout << endl;
 				if (x < 0 || x>9 || y < 0 || y>9) {
 					cout << "Введіть коректні значення" << endl;
+					//cout << "Input correct numbers" << endl;
 					return;
 				}
 				else {
@@ -342,6 +357,7 @@ void GameBoard::placeShip(bool autoPlaceShips) {
 						for (int i = 0; i < GameBoard::ShipsSizeStr::SmallShip; i++) {
 							if (LogicBoard[y + i][x] == 1) {
 								cout << "Ви не можете поставити корабель у місце де він вже присутній" << endl;
+								//cout << "You cannot place ship in place where ship already placed" << endl;
 								return;
 							}
 						}
@@ -354,6 +370,7 @@ void GameBoard::placeShip(bool autoPlaceShips) {
 						for (int i = 0; i < GameBoard::ShipsSizeStr::SmallShip; i++) {
 							if (LogicBoard[y][x + i] == 1) {
 								cout << "Ви не можете поставити корабель у місце де він вже присутній" << endl;
+								//cout << "You cannot place ship in place where ship already placed" << endl;
 								return;
 							}
 						}
@@ -369,16 +386,19 @@ void GameBoard::placeShip(bool autoPlaceShips) {
 				BoardChangeStatus();
 				showBoard();
 				cout << "Напишіть \'x\' та \'y\' координати куди поставити кораблі\n|:";
+				//cout << "Input \'x\' and \'y\' coordinate where to place ships|\n|:";
 				cin >> x >> y;
 				cout << endl;
 				if (x < 0 || x>9 || y < 0 || y>9) {
 					cout << "Введіть коректні значення" << endl;
+					//cout << "Input correct numbers" << endl;
 					return;
 				}
 				else {
 					for (int i = 0; i < GameBoard::ShipsSizeStr::Boat; i++) {
 						if (LogicBoard[y][x + i] == 1) {
 							cout << "Ви не можете поставити корабель у місце де він вже присутній" << endl;
+							//cout << "You cannot place ship in place where ship already placed" << endl;
 							return;
 						}
 					}
