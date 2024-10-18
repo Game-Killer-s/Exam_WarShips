@@ -42,7 +42,7 @@ public:
 	void showShadowBoard();
 	void shoot(bool* SuccessShoot);
 	void CompShoot(bool* SuccessShoot, int* xPrev, int* yPrev,int*directionPrev,int* missShot);
-	void BoardCheckShoot(int x,int y);
+	void BoardCheckShoot();
 
 
 	//				ONLY FOR DEBUG!!!!!!!

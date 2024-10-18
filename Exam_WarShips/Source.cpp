@@ -38,7 +38,7 @@ int main() {
 		PlayerBoard.BoardChangeStatus();
 		PlayerBoard.showBoard();
 		ComputerBoard.BoardChangeStatus();
-		ComputerBoard.showBoard();//debug only
+		ComputerBoard.showShadowBoard();
 		if (PlayerBoard.ShipCount == 0) {
 			cout << "Ви програли" << endl;
 			//cout<<"You loose"<<endl;
