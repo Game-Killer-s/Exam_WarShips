@@ -38,7 +38,17 @@ int main() {
 		PlayerBoard.BoardChangeStatus();
 		PlayerBoard.showBoard();
 		ComputerBoard.BoardChangeStatus();
-		ComputerBoard.showShadowBoard();
+		ComputerBoard.showBoard();//debug only
+		if (PlayerBoard.ShipCount == 0) {
+			cout << "Ви програли" << endl;
+			//cout<<"You loose"<<endl;
+			break;
+		}
+		else if (ComputerBoard.ShipCount == 0) {
+			cout << "Ви перемогли" << endl;
+			//cout<<"You win"<<endl;
+			break;
+		}
 		while (!PlayerSuccessShoot) {
 			ComputerBoard.shoot(&PlayerSuccessShoot);
 		}
@@ -46,7 +56,4 @@ int main() {
 			PlayerBoard.CompShoot(&ComputerSuccessShoot,&CompShootX,&CompShootY,&CompShootDirection,&CompMissShot);
 		}
 	}
-	ComputerBoard.showBoard();
-	ComputerBoard.ShowPos();
-	cout << "Well Done" << endl;
 }

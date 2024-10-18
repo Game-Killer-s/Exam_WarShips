@@ -4,8 +4,8 @@
 using namespace std;
 
 void GameBoard::showBoard() {
-	cout << "|Дошка гравця|\n|Кораблів живих:" << "|Дуже великих|" << Ships.LargeShips << "|Великих|" << Ships.MediumShips << "|Середніх|" << Ships.Ships << "|Маленьких|" << Ships.SmallShips << "|Крихітних|" << Ships.Boats << "|" << endl << endl;
-	//cout << "|Player Board|\n|Ships alive:" << "|Large ships|" << Ships.LargeShips << "|Medium ships|" << Ships.MediumShips << "|Ships|" << Ships.Ships << "|Small ships|" << Ships.SmallShips << "|Boats|" << Ships.Boats << "|" << endl << endl;
+	cout << "|Дошка гравця|\n|Кораблів живих:" << "|Дуже великих|" << Ships.LargeShips << "|Великих|" << Ships.MediumShips << "|Середніх|" << Ships.Ships << "|Маленьких|" << Ships.SmallShips << "|Крихітних|" << Ships.Boats << "|Усього клітин з кораблями|" << ShipCount << "|" << endl << endl;
+	//cout << "|Player Board|\n|Ships alive:" << "|Large ships|" << Ships.LargeShips << "|Medium ships|" << Ships.MediumShips << "|Ships|" << Ships.Ships << "|Small ships|" << Ships.SmallShips << "|Boats|" << Ships.Boats << "|All squares with ships|" << ShipCount << "|" << endl << endl;
 	cout << "  | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |" << endl;
 	cout << "--|---|---|---|---|---|---|---|---|---|---|" << endl;
 	for (int i = 0; i < width; i++) {
@@ -23,8 +23,8 @@ void GameBoard::showBoard() {
 }
 
 void GameBoard::showShadowBoard() {
-	cout << "|Дошка компьютера|\n|Кораблів живих:" << "|Дуже великих|" << Ships.LargeShips << "|Великих|" << Ships.MediumShips << "|Середніх|" << Ships.Ships << "|Маленьких|" << Ships.SmallShips << "|Крихітних|" << Ships.Boats << "|" << endl << endl;
-	//cout << "|Computer`s Board|\n|Ships alive:" << "|Large ships|" << Ships.LargeShips << "|Medium ships|" << Ships.MediumShips << "|Ships|" << Ships.Ships << "|Small ships|" << Ships.SmallShips << "|Boats|" << Ships.Boats << "|" << endl << endl;
+	cout << "|Дошка компьютера|\n|Кораблів живих:" << "|Дуже великих|" << Ships.LargeShips << "|Великих|" << Ships.MediumShips << "|Середніх|" << Ships.Ships << "|Маленьких|" << Ships.SmallShips << "|Крихітних|" << Ships.Boats << "|Усього клітин з кораблями|" << ShipCount << "|" << endl << endl;
+	//cout << "|Computer`s Board|\n|Ships alive:" << "|Large ships|" << Ships.LargeShips << "|Medium ships|" << Ships.MediumShips << "|Ships|" << Ships.Ships << "|Small ships|" << Ships.SmallShips << "|Boats|" << Ships.Boats << "|All squares with ships|" << ShipCount << "|" << endl << endl;
 	cout << "  | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |" << endl;
 	cout << "--|---|---|---|---|---|---|---|---|---|---|" << endl;
 	for (int i = 0; i < width; i++) {
@@ -487,8 +487,9 @@ void GameBoard::shoot(bool* SuccessShoot) {
 				return;
 			case(1):
 				LogicBoard[y][x] = 2;
-				//BoardCheckShoot(x, y);
+				BoardCheckShoot(y, x);
 				*SuccessShoot = true;
+				ShipCount--;
 				return;
 			default:
 				cout << "Постріл не може бути зроблен у те саме місце" << endl;
@@ -578,9 +579,11 @@ void GameBoard::CompShoot(bool* SuccessShoot, int* xPrev, int* yPrev,int*directi
 				return;
 			case(1):
 				LogicBoard[y][x] = 2;
+				BoardCheckShoot(y, x);
 				*xPrev = x;
 				*yPrev = y;
 				*SuccessShoot = true;
+				ShipCount--;
 				if (direction < 0 || direction>4) {
 					return;
 				}
@@ -588,7 +591,6 @@ void GameBoard::CompShoot(bool* SuccessShoot, int* xPrev, int* yPrev,int*directi
 					*directionPrev = direction;
 					return;
 				}
-				//BoardCheckShoot(x, y);
 			default:
 				if (*directionPrev < 0 || *directionPrev>3) {
 					return;
@@ -607,6 +609,256 @@ void GameBoard::CompShoot(bool* SuccessShoot, int* xPrev, int* yPrev,int*directi
 				}
 			}
 		}
+	}
+}
+
+void GameBoard::BoardCheckShoot(int x, int y) { //Need to do in right way (Змінити локальні перевірки на комплексні перевірки кораблів)
+	bool xCorr=false,
+		yCorr=false,
+		Flouded=false;
+	while (true) {
+		if (Ships.LargeShips > 0) {
+			if (Ships.LargeShipsPos[0] == x) {
+				xCorr = true;
+			}
+			if (Ships.LargeShipsPos[1] == y) {
+				yCorr = true;
+			}
+			if (xCorr && yCorr) {
+				if (Ships.LargeShipsPos[2] == 0) {
+					for (int i = 0; i < ShipsSizeStr::LargeShip; i++) {
+						if (LogicBoard[x + i][y] != 2) {
+							break;
+						}
+						else {
+							Flouded = true;
+						}
+					}
+					if (Flouded) {
+						for (int i = 0; i < ShipsSizeStr::LargeShip; i++) {
+							LogicBoard[x + i][y] = 4;
+							Ships.LargeShips--;
+							return;
+						}
+					}
+				}
+				else {
+					for (int i = 0; i < ShipsSizeStr::LargeShip; i++) {
+						if (LogicBoard[x][y + i] != 2) {
+							break;
+						}
+						else {
+							Flouded = true;
+						}
+					}
+					if (Flouded) {
+						for (int i = 0; i < ShipsSizeStr::LargeShip; i++) {
+							LogicBoard[x][y + i] = 4;
+							Ships.LargeShips--;
+							return;
+						}
+					}
+				}
+			}
+			xCorr = false;
+			yCorr = false;
+		}
+		if (Ships.MediumShips > 0) {
+			for (int i = 0; i < 2; i++) {
+				if (Ships.MediumShipsPos[i][0] == x) {
+					xCorr = true;
+				}
+				if (Ships.MediumShipsPos[i][1] == y) {
+					yCorr = true;
+				}
+				if (xCorr && yCorr) {
+					break;
+				}
+				else {
+					xCorr = false;
+					yCorr = false;
+				}
+			}
+			if (xCorr && yCorr) {
+				for (int j = 0; j < 2; j++) {
+					if (Ships.MediumShipsPos[j][2] == 0) {
+						for (int i = 0; i < ShipsSizeStr::MediumShip; i++) {
+							if (LogicBoard[x + i][y] != 2) {
+								break;
+							}
+							else {
+								Flouded = true;
+							}
+						}
+						if (Flouded) {
+							for (int i = 0; i < ShipsSizeStr::MediumShip; i++) {
+								LogicBoard[x + i][y] = 4;
+								Ships.MediumShips--;
+								return;
+							}
+						}
+					}
+					else {
+						for (int i = 0; i < ShipsSizeStr::MediumShip; i++) {
+							if (LogicBoard[x][y + i] != 2) {
+								break;
+							}
+							else {
+								Flouded = true;
+							}
+						}
+						if (Flouded) {
+							for (int i = 0; i < ShipsSizeStr::MediumShip; i++) {
+								LogicBoard[x][y + i] = 4;
+								Ships.MediumShips--;
+								return;
+							}
+						}
+					}
+				}
+			}
+		}
+		if (Ships.Ships > 0) {
+			for (int i = 0; i < 3; i++) {
+				if (Ships.ShipsPos[i][0] == x) {
+					xCorr = true;
+				}
+				if (Ships.ShipsPos[i][1] == y) {
+					yCorr = true;
+				}
+				if (xCorr && yCorr) {
+					break;
+				}
+				else {
+					xCorr = false;
+					yCorr = false;
+				}
+			}
+			if (xCorr && yCorr) {
+				for (int j = 0; j < 3; j++) {
+					if (Ships.ShipsPos[j][2] == 0) {
+						for (int i = 0; i < ShipsSizeStr::Ship; i++) {
+							if (LogicBoard[x + i][y] != 2) {
+								break;
+							}
+							else {
+								Flouded = true;
+							}
+						}
+						if (Flouded) {
+							for (int i = 0; i < ShipsSizeStr::Ship; i++) {
+								LogicBoard[x + i][y] = 4;
+								Ships.Ships--;
+								return;
+							}
+						}
+					}
+					else {
+						for (int i = 0; i < ShipsSizeStr::Ship; i++) {
+							if (LogicBoard[x][y + i] != 2) {
+								break;
+							}
+							else {
+								Flouded = true;
+							}
+						}
+						if (Flouded) {
+							for (int i = 0; i < ShipsSizeStr::Ship; i++) {
+								LogicBoard[x][y + i] = 4;
+								Ships.Ships--;
+								return;
+							}
+						}
+					}
+				}
+			}
+		}
+		if (Ships.SmallShips > 0) {
+			for (int i = 0; i < 4; i++){
+				if (Ships.SmallShipsPos[i][0] == x) {
+					xCorr = true;
+				}
+				if (Ships.SmallShipsPos[i][1] == y) {
+					yCorr = true;
+				}
+				if (xCorr && yCorr) {
+					break;
+				}
+				else {
+					xCorr = false;
+					yCorr = false;
+				}
+			}
+			if (xCorr && yCorr) {
+				for (int j = 0; j < 4; j++) {
+					if (Ships.SmallShipsPos[j][2] == 0) {
+						for (int i = 0; i < ShipsSizeStr::SmallShip; i++) {
+							if (LogicBoard[x + i][y] != 2) {
+								break;
+							}
+							else {
+								Flouded = true;
+							}
+						}
+						if (Flouded) {
+							for (int i = 0; i < ShipsSizeStr::SmallShip; i++) {
+								LogicBoard[x + i][y] = 4;
+								Ships.SmallShips--;
+								return;
+							}
+						}
+					}
+					else {
+						for (int i = 0; i < ShipsSizeStr::SmallShip; i++) {
+							if (LogicBoard[x][y + i] != 2) {
+								return;
+							}
+							else {
+								Flouded = true;
+							}
+						}
+						if (Flouded) {
+							for (int i = 0; i < ShipsSizeStr::SmallShip; i++) {
+								LogicBoard[x][y + i] = 4;
+								Ships.SmallShips--;
+								return;
+							}
+						}
+					}
+				}
+			}
+		}
+		if (Ships.Boats > 0) {
+			for (int i = 0; i < 5; i++) {
+				if (Ships.BoatsPos[i][0] == x) {
+					xCorr = true;
+				}
+				if (Ships.BoatsPos[i][1] == y) {
+					yCorr = true;
+				}
+				if (xCorr && yCorr) {
+					break;
+				}
+				else {
+					xCorr = false;
+					yCorr = false;
+				}
+			}
+			if (xCorr && yCorr) {
+				if (LogicBoard[x][y] != 2) {
+					continue;
+				}
+				else {
+					Flouded = true;
+				}	
+				if (Flouded) {
+					LogicBoard[x][y] = 4;
+					Ships.Boats--;
+					return;
+				}
+			}
+		}
+		return;
 	}
 }
 
